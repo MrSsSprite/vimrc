@@ -9,6 +9,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 Plug 'mechatroner/rainbow_csv'
+Plug 'jdhao/better-escape.vim'
 
 call plug#end()
 
@@ -146,6 +147,10 @@ set nowrap
 
 set updatetime=100
 
+" Better Escase
+let g:better_escape_interval = 150
+let g:better_escape_shortcut = [ 'jk', 'kj' ]
+
 " ------------------------------------------------------------------------------
 "  Mappings
 "
@@ -178,6 +183,11 @@ nnoremap <space> <nop>
 
 " Append Filename
 nnoremap <Leader>af :execute 'normal! a' . expand('%:t')<CR>
+
+" Remap <Esc> in insert mode to avoid vexatious waiting after typing
+" immediately after escaping the insert mode.
+inoremap <c- <Esc>
+
 
 " ------------------------------------------------------------------------------
 " Functions
