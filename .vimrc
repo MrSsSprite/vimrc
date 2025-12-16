@@ -8,24 +8,25 @@ Plug 'rose-pine/vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+Plug 'mechatroner/rainbow_csv'
 
 call plug#end()
 
 set encoding=utf-8
 
-colorscheme rosepine
+"colorscheme rosepine
 " Gruvbox
-"set background=dark
-"let g:gruvbox_bold=1
-"let g:gruvbox_transparent_bg=1
-"let g:gruvbox_sign_column='bg0'
-"let g:gruvbox_contrast_dark='hard'
-"let g:gruvbox_contrast_light='soft'
-"colorscheme gruvbox
+set background=dark
+let g:gruvbox_bold=1
+let g:gruvbox_transparent_bg=1
+let g:gruvbox_sign_column='bg0'
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_contrast_light='soft'
+colorscheme gruvbox
 
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#formatter='default'
-let g:airline_theme='atomic'
+let g:airline_theme='gruvbox'
 let g:airline_powerline_fonts=1
 
 " CoC Configurations
@@ -34,6 +35,7 @@ let g:coc_global_extensions = [
    \ 'coc-tsserver',
    \ 'coc-json',
    \ 'coc-clangd',
+   \ 'coc-python',
    \ ]
 
 " Use <C-Space> to trigger completion
@@ -124,7 +126,7 @@ set ruler
 " Always display the status line, even if only one window is displayed
 "set laststatus=2
 
-set jumpoptions=stack
+"set jumpoptions=stack
 
 " Display line numbers on the left
 set number
@@ -181,22 +183,23 @@ nnoremap <Leader>af :execute 'normal! a' . expand('%:t')<CR>
 " Functions
 function! ExpandCommentLine()
    let line = getline('.')
-   let text = substitute(line, "\\v\/\\*.{-}(\\w)((\\w|\\s){-})\\W{-}\\*\\/", "\\1\\2", "")
+   let text = substitute(line, "\\v.*\\/\\*\\W*(\\w)((\\w|\\s){-})\\W{-}\\*\\/.*", "\\1\\2", "")
+   let indent = matchstr(line, '^\s*')
    let prefix = "/*"
    let suffix = "*/"
-   if strpart(text, strlen(text) - 1) ==# ' '
-      let fixed_text = " " . text
+   if strlen(text) == 0
+      let fixed_text = " "
    else
       let fixed_text = " " . text . " "
    endif
 
-   let dash_needed = 80 - (strlen(prefix) + strlen(fixed_text) + strlen(suffix))
+   let dash_needed = 80 - (strlen(prefix) + strlen(fixed_text) + strlen(suffix) + strlen(indent))
    if dash_needed < 0
-      let new_line = prefix . fixed_text . suffix
+      let new_line = indent . prefix . fixed_text . suffix
    else
       let left_dashes = dash_needed / 2
       let right_dashes = dash_needed - left_dashes
-      let new_line = prefix . repeat('-', left_dashes) . fixed_text . repeat('-', right_dashes) . suffix
+      let new_line = indent . prefix . repeat('-', left_dashes) . fixed_text . repeat('-', right_dashes) . suffix
    endif
    call setline('.', new_line)
 endfunction
