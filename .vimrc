@@ -103,6 +103,9 @@ set showcmd
 set hlsearch
 set incsearch
 
+" Disable rust style
+let g:rust_recommended_style = 0
+
 autocmd BufRead,BufNewFile *.h set filetype=c
 
 " ------------------------------------------------------------------------------
