@@ -103,7 +103,7 @@ set showcmd
 set hlsearch
 set incsearch
 
-" Disable rust style
+" Prevent rust overriding vim format
 let g:rust_recommended_style = 0
 
 autocmd BufRead,BufNewFile *.h set filetype=c
@@ -130,7 +130,7 @@ set ruler
 " Always display the status line, even if only one window is displayed
 "set laststatus=2
 
-"set jumpoptions=stack
+set jumpoptions=stack
 
 " Display line numbers on the left
 set number
@@ -186,10 +186,6 @@ nnoremap <space> <nop>
 
 " Append Filename
 nnoremap <Leader>af :execute 'normal! a' . expand('%:t')<CR>
-
-" Remap <Esc> in insert mode to avoid vexatious waiting after typing
-" immediately after escaping the insert mode.
-inoremap <c- <Esc>
 
 
 " ------------------------------------------------------------------------------
